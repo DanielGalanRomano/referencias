@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App de Referencias - Pantallas</title>
+<style>
+  /* ============================================
+     ESTILOS GLOBALES - INSPIRADOS EN MERCADO PAGO
+     ============================================ */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :root {
+    --mp-blue: #009ee3;
+    --mp-blue-dark: #008ac7;
+    --mp-blue-light: #e6f7ff;
+    --mp-green: #00a650;
+    --mp-green-light: #e6f9ee;
+    --mp-red: #f23d4f;
+    --mp-yellow: #ffd700;
+    --mp-bg: #f5f4ef;
+    --mp-card: #ffffff;
+    --mp-text: #1f1e1d;
+    --mp-text-sec: #6b6a68;
+    --mp-border: #f0f0f0;
+    --mp-gray-bg: #f8f8f8;
+    --mp-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    --mp-shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+    --mp-radius: 16px;
+    --mp-radius-lg: 24px;
+  }
+
+  html, body {
+    background-color: var(--mp-bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--mp-text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============================================
+     ICONOS OUTLINE (SVG)
+     ============================================ */
+  .icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .icon-sm { width: 18px; height: 18px; }
+  .icon-lg { width: 32px; height: 32px; }
+  .icon-xl { width: 40px; height: 40px; }
+
+  /* ============================================
+     CONTENEDOR PRINCIPAL
+     ============================================ */
+  .app-container {
+    max-width: 420px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--mp-bg);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ============================================
+     HEADER
+     ============================================ */
+  .app-header {
+    background: var(--mp-card);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--mp-border);
+  }
+
+  .app-header .back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--mp-gray-bg);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mp-text);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .app-header .back-btn:hover { background: #ececec; }
+
+  .app-header .app-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--mp-text);
+  }
+
+  .app-header .header-spacer { width: 36px; }
+
+  /* ============================================
+     MAIN
+     ============================================ */
+  .app-main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    position: relative;
+  }
+
+  /* ============================================
+     TARJETAS
+     ============================================ */
+  .card {
+    background: var(--mp-card);
+    border-radius: var(--mp-radius);
+    padding: 20px;
+    box-shadow: var(--mp-shadow);
+    border: 1px solid var(--mp-border);
+  }
+
+  .card-lg {
+    border-radius: var(--mp-radius-lg);
+    padding: 24px;
+  }
+
+  /* ============================================
+     TIPOGRAFÍA
+     ============================================ */
+  .title-xl { font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; color: var(--mp-text); }
+  .title-lg { font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: -0.3px; }
+  .title-md { font-size: 17px; font-weight: 600; color: var(--mp-text); }
+  .title-sm { font-size: 14px; font-weight: 600; color: var(--mp-text); }
+  .text-body { font-size: 15px; color: var(--mp-text-sec); line-height: 1.5; }
+  .text-small { font-size: 13px; color: var(--mp-text-sec); line-height: 1.4; }
+  .text-tiny { font-size: 11px; color: var(--mp-text-sec); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .text-blue { color: var(--mp-blue); }
+  .text-green { color: var(--mp-green); }
+  .text-red { color: var(--mp-red); }
+  .text-center { text-align: center; }
+  .text-bold { font-weight: 700; }
+
+  /* ============================================
+     BOTONES
+     ============================================ */
+  .btn {
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-primary { background: var(--mp-blue); color: #fff; }
+  .btn-primary:hover { background: var(--mp-blue-dark); }
+  .btn-secondary { background: var(--mp-blue-light); color: var(--mp-blue); }
+  .btn-secondary:hover { background: #d0efff; }
+  .btn-outline { background: transparent; color: var(--mp-blue); border: 2px solid var(--mp-blue); }
+  .btn-outline:hover { background: var(--mp-blue-light); }
+  .btn-ghost { background: transparent; color: var(--mp-text-sec); font-weight: 500; }
+  .btn-ghost:hover { background: var(--mp-gray-bg); }
+  .btn-green { background: var(--mp-green); color: #fff; }
+  .btn-green:hover { background: #008f45; }
+  .btn-sm { padding: 8px 16px; font-size: 13px; border-radius: 8px; width: auto; }
+
+  /* ============================================
+     INPUTS
+     ============================================ */
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .input-label { font-size: 13px; font-weight: 600; color: var(--mp-text); }
+
+  .input-field {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--mp-border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--mp-gray-bg);
+    color: var(--mp-text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-field:focus { border-color: var(--mp-blue); background: #fff; }
+  .input-field::placeholder { color: #a8a7a5; }
+
+  .search-box { position: relative; width: 100%; }
+
+  .search-box .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mp-text-sec);
+    pointer-events: none;
+  }
+
+  .search-box .input-field { padding-left: 48px; }
+
+  /* ============================================
+     DROPDOWN
+     ============================================ */
+  .dropdown { position: relative; width: 100%; }
+
+  .dropdown-trigger {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--mp-border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--mp-gray-bg);
+    color: var(--mp-text);
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    transition: border-color 0.2s;
+  }
+
+  .dropdown-trigger:hover { border-color: #d0d0d0; }
+  .dropdown-trigger.open { border-color: var(--mp-blue); background: #fff; }
+  .dropdown-trigger .placeholder { color: #a8a7a5; }
+  .dropdown-trigger .selected-text { color: var(--mp-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dropdown-trigger .chevron { transition: transform 0.2s; color: var(--mp-text-sec); }
+  .dropdown-trigger.open .chevron { transform: rotate(180deg); }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--mp-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 50;
+    display: none;
+    padding: 8px;
+  }
+
+  .dropdown-menu.open { display: block; animation: fadeIn 0.2s ease; }
+
+  .dropdown-item {
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--mp-text);
+    transition: background 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .dropdown-item:hover { background: var(--mp-gray-bg); }
+  .dropdown-item.selected { background: var(--mp-blue-light); color: var(--mp-blue); font-weight: 600; }
+  .dropdown-item .item-icon { flex-shrink: 0; margin-top: 2px; color: var(--mp-blue); }
+
+  /* ============================================
+     CHIP Y BADGES
+     ============================================ */
+  .chip {
+    width: 44px;
+    height: 32px;
+    background: linear-gradient(135deg, #f0d58c 0%, #d4af37 100%);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .chip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 4px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .badge-verified { background: var(--mp-blue-light); color: var(--mp-blue); }
+  .badge-green { background: var(--mp-green-light); color: var(--mp-green); }
+
+  /* ============================================
+     PANTALLA: INGRESO
+     ============================================ */
+  .login-header { text-align: center; padding: 40px 0 20px; }
+
+  .login-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, #0077b6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(0,158,227,0.3);
+    color: #fff;
+  }
+
+  /* ============================================
+     PANTALLA: VERIFICAR CELULAR
+     ============================================ */
+  .phone-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--mp-blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--mp-blue);
+  }
+
+  .code-inputs { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+
+  .code-input {
+    width: 48px;
+    height: 56px;
+    border: 1.5px solid var(--mp-border);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    background: var(--mp-gray-bg);
+    color: var(--mp-text);
+    outline: none;
+    font-family: inherit;
+  }
+
+  .code-input:focus { border-color: var(--mp-blue); background: #fff; }
+
+  /* ============================================
+     PANTALLA: PERMISO AGENDA
+     ============================================ */
+  .permiso-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #fff4e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #e67e22;
+  }
+
+  /* ============================================
+     PANTALLA: PERFIL TARJETA
+     ============================================ */
+  .profile-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+    border-radius: var(--mp-radius-lg);
+    padding: 24px;
+    box-shadow: var(--mp-shadow-lg);
+    border: 1px solid var(--mp-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,158,227,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .profile-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+
+  .profile-card-name { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+
+  .profile-card-trait { font-size: 14px; color: var(--mp-text-sec); }
+
+  .profile-link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--mp-gray-bg);
+    padding: 12px 16px;
+    border-radius: 12px;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .profile-link-url {
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  /* ============================================
+     PANTALLA: PLANES
+     ============================================ */
+  .plan-card {
+    border-radius: var(--mp-radius);
+    padding: 24px;
+    border: 2px solid var(--mp-border);
+    background: var(--mp-card);
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .plan-card.featured { border-color: var(--mp-blue); box-shadow: 0 8px 24px rgba(0,158,227,0.15); }
+
+  .plan-card.featured::before {
+    content: 'RECOMENDADO';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mp-blue);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .plan-price { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: var(--mp-text); }
+
+  .plan-price-period { font-size: 14px; color: var(--mp-text-sec); font-weight: 500; }
+
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+
+  .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--mp-text); }
+
+  .plan-features li .check { color: var(--mp-green); flex-shrink: 0; }
+  .plan-features li .cross { color: #c4c4c4; flex-shrink: 0; }
+
+  /* ============================================
+     PANTALLA: ENLACE COMPARTIDO
+     ============================================ */
+  .shared-card {
+    background: var(--mp-card);
+    border-radius: var(--mp-radius-lg);
+    padding: 24px;
+    box-shadow: var(--mp-shadow);
+    border: 1px solid var(--mp-border);
+    position: relative;
+  }
+
+  .shared-card.blurred .shared-content { filter: blur(8px); user-select: none; pointer-events: none; }
+
+  .lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    border-radius: var(--mp-radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .lock-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--mp-blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mp-blue);
+  }
+
+  /* ============================================
+     PANTALLA: CALIFICAR
+     ============================================ */
+  .rating-stars { display: flex; justify-content: center; gap: 12px; margin: 24px 0; }
+
+  .rating-stars .star { cursor: pointer; transition: all 0.2s; color: #e0e0e0; line-height: 1; }
+
+  .rating-stars .star.active { color: var(--mp-yellow); transform: scale(1.1); }
+
+  .rating-stars .star:hover { transform: scale(1.15); }
+
+  .rating-category { margin-bottom: 20px; }
+  .rating-category:last-child { margin-bottom: 0; }
+
+  .rating-category-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--mp-text); }
+
+  .rating-category-header .icon { color: var(--mp-blue); }
+
+  .rating-category-header .category-title { font-size: 14px; font-weight: 600; }
+
+  .rating-category-header .category-count { font-size: 11px; color: var(--mp-text-sec); margin-left: auto; font-weight: 500; }
+
+  .rating-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .rating-tag {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: var(--mp-gray-bg);
+    color: var(--mp-text-sec);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+
+  .rating-tag:hover { background: #ececec; }
+
+  .rating-tag.selected {
+    background: var(--mp-blue-light);
+    color: var(--mp-blue);
+    border-color: var(--mp-blue);
+    font-weight: 600;
+  }
+
+  .rating-tag.selected::before { content: '✓'; font-size: 11px; font-weight: 700; }
+
+  /* ============================================
+     PANTALLA: CALIFICACIÓN RECIBIDA
+     ============================================ */
+  .received-rating { text-align: center; padding: 20px 0; }
+
+  .received-stars { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; color: var(--mp-yellow); }
+
+  .received-score { font-size: 48px; font-weight: 700; letter-spacing: -2px; color: var(--mp-text); }
+
+  /* ============================================
+     PANTALLA: BÚSQUEDA
+     ============================================ */
+  .search-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    scrollbar-width: none;
+  }
+
+  .search-filters::-webkit-scrollbar { display: none; }
+
+  .filter-chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--mp-card);
+    color: var(--mp-text-sec);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--mp-border);
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .filter-chip:hover { border-color: #d0d0d0; }
+
+  .filter-chip.active { background: var(--mp-blue); color: #fff; border-color: var(--mp-blue); }
+
+  .person-card {
+    background: var(--mp-card);
+    border-radius: var(--mp-radius);
+    padding: 16px;
+    box-shadow: var(--mp-shadow);
+    border: 1px solid var(--mp-border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .person-card:hover { transform: translateY(-2px); box-shadow: var(--mp-shadow-lg); border-color: var(--mp-blue-light); }
+
+  .person-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--mp-blue-light) 0%, #c8e9f8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mp-blue);
+    flex-shrink: 0;
+    position: relative;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .person-avatar .verified-dot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--mp-blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+  }
+
+  .person-info { flex: 1; min-width: 0; }
+
+  .person-name { font-size: 15px; font-weight: 700; color: var(--mp-text); margin-bottom: 2px; }
+
+  .person-trait { font-size: 12px; color: var(--mp-text-sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .person-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+
+  .person-rating { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; color: var(--mp-text); }
+
+  .person-rating .icon { color: var(--mp-yellow); fill: var(--mp-yellow); stroke: var(--mp-yellow); }
+
+  .person-refs { font-size: 12px; color: var(--mp-text-sec); }
+
+  .person-arrow { color: var(--mp-text-sec); flex-shrink: 0; }
+
+  .results-count { font-size: 13px; color: var(--mp-text-sec); font-weight: 500; padding: 0 2px; }
+
+  /* ============================================
+     BANNER FLOTANTE STICKY
+     ============================================ */
+  .floating-cta {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, #0077b6 100%);
+    color: #fff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,158,227,0.25);
+    margin: -20px -20px 0;
+    margin-bottom: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+  }
+
+  .floating-cta.hidden {
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    margin-bottom: -50px;
+  }
+
+  .floating-cta .cta-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .floating-cta .cta-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .floating-cta .cta-text { flex: 1; min-width: 0; }
+
+  .floating-cta .cta-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
+
+  .floating-cta .cta-subtitle { font-size: 11px; opacity: 0.9; margin-top: 1px; }
+
+  .floating-cta .cta-btn {
+    background: #fff;
+    color: var(--mp-blue);
+    border: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+
+  .floating-cta .cta-btn:hover { transform: scale(1.05); }
+
+  /* ============================================
+     NAVEGACIÓN INFERIOR
+     ============================================ */
+  .app-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 420px;
+    background: var(--mp-card);
+    border-top: 1px solid var(--mp-border);
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0 16px;
+    z-index: 200;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 10px;
+    color: var(--mp-text-sec);
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+
+  .nav-item.active { color: var(--mp-blue); }
+  .nav-item:hover { color: var(--mp-blue); }
+
+  /* ============================================
+     UTILIDADES
+     ============================================ */
+  .flex { display: flex; }
+  .flex-col { flex-direction: column; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .gap-4 { gap: 4px; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .gap-16 { gap: 16px; }
+  .gap-20 { gap: 20px; }
+  .gap-24 { gap: 24px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .w-full { width: 100%; }
+
+  /* ============================================
+     SISTEMA DE PANTALLAS
+     ============================================ */
+  .screen { display: none; }
+
+  .screen.active {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 480px) {
+    .app-container { max-width: 100%; }
+    .app-nav { max-width: 100%; }
+    .app-main { padding: 16px; }
+    .profile-card-name { font-size: 22px; }
+    .title-xl { font-size: 24px; }
+    .plan-price { font-size: 28px; }
+    .code-input { width: 40px; height: 48px; font-size: 18px; }
+    .search-filters { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+    .floating-cta { margin: -16px -16px 0; margin-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- ============================================
+       HEADER
+       ============================================ -->
+  <header class="app-header">
+    <button class="back-btn" onclick="goBack()" id="backBtn" style="visibility:hidden;">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="app-title" id="headerTitle">Buscar personas</div>
+    <div class="header-spacer"></div>
+  </header>
+
+  <!-- ============================================
+       PANTALLA 1: INGRESO
+       ============================================ -->
+  <main class="app-main screen" id="screen-1">
+    <div class="login-header">
+      <div class="login-logo">
+        <svg class="icon icon-xl" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h1 class="title-xl">Referencias</h1>
+      <p class="text-body mt-8">La confianza entre personas, verificada.</p>
+    </div>
+
+    <div class="card mt-24">
+      <div class="input-group">
+        <label class="input-label">Email o teléfono</label>
+        <input type="text" class="input-field" placeholder="tu@email.com" id="loginInput">
+      </div>
+
+      <button class="btn btn-primary mt-16" onclick="login()">Continuar</button>
+
+      <div class="text-center mt-16">
+        <p class="text-small">Al continuar aceptás los <a href="#" style="color:var(--mp-blue);text-decoration:none;">Términos</a> y la <a href="#" style="color:var(--mp-blue);text-decoration:none;">Política de Privacidad</a></p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-ghost" onclick="goTo(9)">Explorar sin cuenta</button>
+    </div>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 2: VERIFICAR CELULAR
+       ============================================ -->
+  <main class="app-main screen" id="screen-2">
+    <div class="text-center mt-24">
+      <div class="phone-icon">
+        <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+      </div>
+      <h1 class="title-lg">Verificá tu celular</h1>
+      <p class="text-body mt-8">Te enviamos un código de 6 dígitos al <strong>+54 9 11 1234-5678</strong></p>
+    </div>
+
+    <div class="code-inputs">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+      <input type="text" class="code-input" maxlength="1" inputmode="numeric">
+    </div>
+
+    <button class="btn btn-primary" onclick="goTo(3)">Verificar</button>
+
+    <div class="text-center">
+      <p class="text-small">¿No recibiste el código? <a href="#" style="color:var(--mp-blue);text-decoration:none;font-weight:600;">Reenviar</a></p>
+    </div>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 3: PERMISO DE AGENDA
+       ============================================ -->
+  <main class="app-main screen" id="screen-3">
+    <div class="text-center mt-24">
+      <div class="permiso-icon">
+        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      </div>
+      <h1 class="title-lg">Permiso de agenda</h1>
+      <p class="text-body mt-8">Para que puedas invitar a tus contactos y ellos te refieran, necesitamos acceso a tu agenda.</p>
+    </div>
+
+    <div class="card">
+      <div class="flex items-start gap-12">
+        <svg class="icon" viewBox="0 0 24 24" style="color:var(--mp-blue);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div>
+          <p class="title-sm">Tus contactos están seguros</p>
+          <p class="text-small mt-8">Solo los usamos para que puedas enviar invitaciones. No los compartimos con nadie.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="login()">Permitir acceso</button>
+    <button class="btn btn-ghost" onclick="login()">Ahora no</button>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 4: PERFIL COMO TARJETA
+       ============================================ -->
+  <main class="app-main screen" id="screen-4">
+    <div class="profile-card">
+      <div class="profile-card-header">
+        <div class="chip"></div>
+        <div class="badge badge-verified">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" style="fill:var(--mp-blue);stroke:var(--mp-blue);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Verificado
+        </div>
+      </div>
+
+      <div class="profile-card-name">María González</div>
+      <div class="profile-card-trait">Colaboradora Confiable</div>
+
+      <div class="profile-link-row">
+        <span class="profile-link-url">ref.app/maria-gonzalez</span>
+        <button class="btn btn-secondary btn-sm">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Compartir
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-tiny">Calificación</p>
+          <p class="title-lg mt-8">4.9 ★</p>
+        </div>
+        <div class="text-right">
+          <p class="text-tiny">Referencias</p>
+          <p class="title-lg mt-8">127</p>
+        </div>
+        <div class="text-right">
+          <p class="text-tiny">Verificado</p>
+          <p class="title-lg mt-8" style="color:var(--mp-blue);">✓</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary">Editar Perfil</button>
+    <button class="btn btn-outline" onclick="goTo(5)">Ver Planes</button>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 5: PLANES
+       ============================================ -->
+  <main class="app-main screen" id="screen-5">
+    <div class="text-center mt-16">
+      <h1 class="title-lg">Planes</h1>
+      <p class="text-body mt-8">Elegí cómo querés usar Referencias</p>
+    </div>
+
+    <div class="plan-card">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="title-md">Gratis</p>
+          <p class="text-small mt-8">Para empezar</p>
+        </div>
+        <div class="text-right">
+          <span class="plan-price">$0</span>
+        </div>
+      </div>
+
+      <ul class="plan-features">
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Perfil público</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Hasta 10 referencias</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Calificaciones básicas</li>
+        <li><svg class="icon icon-sm cross" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Sin sello de verificado</li>
+        <li><svg class="icon icon-sm cross" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Sin prioridad en búsquedas</li>
+      </ul>
+
+      <button class="btn btn-outline">Plan actual</button>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="title-md">Premium</p>
+          <p class="text-small mt-8">Con sello verificado</p>
+        </div>
+        <div class="text-right">
+          <span class="plan-price">$3.000</span>
+          <span class="plan-price-period">/mes</span>
+        </div>
+      </div>
+
+      <ul class="plan-features">
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Todo lo de Gratis</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Referencias ilimitadas</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Sello de <strong>Verificado</strong></li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Prioridad en búsquedas</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Estadísticas avanzadas</li>
+      </ul>
+
+      <div class="card" style="padding:12px;margin-bottom:16px;background:var(--mp-gray-bg);border:none;">
+        <div class="flex items-start gap-8">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" style="color:var(--mp-blue);margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <p class="text-small">Pagar no cambia tus calificaciones. El sello se activa después de una verificación de identidad.</p>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="goTo(7)">Suscribirme a Premium</button>
+    </div>
+
+    <div class="text-center">
+      <p class="text-small">Podés cancelar cuando quieras. Sin permanencia.</p>
+    </div>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 6: ENLACE COMPARTIDO
+       ============================================ -->
+  <main class="app-main screen" id="screen-6">
+    <div class="text-center mt-16">
+      <h1 class="title-lg">Vista previa</h1>
+      <p class="text-body mt-8">Así ve alguien que abre tu enlace sin sesión</p>
+    </div>
+
+    <div class="shared-card blurred">
+      <div class="shared-content">
+        <div class="profile-card-header">
+          <div class="chip"></div>
+          <div class="badge badge-verified">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" style="fill:var(--mp-blue);stroke:var(--mp-blue);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Verificado
+          </div>
+        </div>
+        <div class="profile-card-name">María González</div>
+        <div class="profile-card-trait">Colaboradora Confiable</div>
+        <div class="profile-link-row mt-16">
+          <span class="profile-link-url">ref.app/maria-gonzalez</span>
+          <button class="btn btn-secondary btn-sm">Compartir</button>
+        </div>
+      </div>
+
+      <div class="lock-overlay">
+        <div class="lock-icon">
+          <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <p class="title-sm">Iniciá sesión para ver el perfil completo</p>
+        <p class="text-small">Necesitás una cuenta gratuita para acceder a las referencias y calificaciones.</p>
+        <button class="btn btn-primary mt-8" onclick="goTo(1)">Iniciar sesión</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="text-tiny mb-8">¿Qué ve el visitante?</p>
+      <ul class="plan-features">
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Tu nombre y sello</li>
+        <li><svg class="icon icon-sm check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Tu rasgo principal</li>
+        <li><svg class="icon icon-sm cross" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Tus calificaciones detalladas</li>
+        <li><svg class="icon icon-sm cross" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Tus referencias completas</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 7: CALIFICAR
+       ============================================ -->
+  <main class="app-main screen" id="screen-7">
+    <div class="text-center mt-16">
+      <h1 class="title-lg">Calificá a Juan</h1>
+      <p class="text-body mt-8">¿Cómo fue tu experiencia trabajando con él?</p>
+    </div>
+
+    <div class="card text-center">
+      <div class="flex items-center justify-center gap-12 mb-16">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--mp-blue-light);display:flex;align-items:center;justify-content:center;color:var(--mp-blue);">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="text-left">
+          <p class="title-sm">Juan Pérez</p>
+          <p class="text-small">Colaborador</p>
+        </div>
+      </div>
+
+      <div class="rating-stars" id="ratingStars">
+        <svg class="icon icon-lg star" data-value="1" viewBox="0 0 24 24" style="fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="icon icon-lg star" data-value="2" viewBox="0 0 24 24" style="fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="icon icon-lg star" data-value="3" viewBox="0 0 24 24" style="fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="icon icon-lg star" data-value="4" viewBox="0 0 24 24" style="fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="icon icon-lg star" data-value="5" viewBox="0 0 24 24" style="fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+
+      <p class="text-small" id="ratingLabel">Tocá para calificar</p>
+    </div>
+
+    <div class="card">
+      <p class="title-sm mb-8">Elegí un comentario</p>
+      <div class="dropdown" id="commentDropdown">
+        <button class="dropdown-trigger" onclick="toggleDropdown('commentDropdown')">
+          <span class="placeholder" id="commentTriggerText">Seleccioná un comentario predefinido</span>
+          <svg class="icon icon-sm chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="dropdown-menu" id="commentDropdownMenu"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="title-sm mb-16">¿Qué destacás de Juan?</p>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span class="category-title">Profesionalismo</span>
+          <span class="category-count" id="count-prof">0/5</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="prof">Responsable</span>
+          <span class="rating-tag" data-cat="prof">Puntual</span>
+          <span class="rating-tag" data-cat="prof">Comprometido</span>
+          <span class="rating-tag" data-cat="prof">Organizado</span>
+          <span class="rating-tag" data-cat="prof">Detallista</span>
+        </div>
+      </div>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="category-title">Comunicación</span>
+          <span class="category-count" id="count-com">0/4</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="com">Claro</span>
+          <span class="rating-tag" data-cat="com">Rápido en responder</span>
+          <span class="rating-tag" data-cat="com">Empático</span>
+          <span class="rating-tag" data-cat="com">Asertivo</span>
+        </div>
+      </div>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="category-title">Habilidades</span>
+          <span class="category-count" id="count-hab">0/5</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="hab">Experto</span>
+          <span class="rating-tag" data-cat="hab">Resolutivo</span>
+          <span class="rating-tag" data-cat="hab">Creativo</span>
+          <span class="rating-tag" data-cat="hab">Proactivo</span>
+          <span class="rating-tag" data-cat="hab">Aprendizaje rápido</span>
+        </div>
+      </div>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          <span class="category-title">Actitud</span>
+          <span class="category-count" id="count-act">0/5</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="act">Positivo</span>
+          <span class="rating-tag" data-cat="act">Colaborativo</span>
+          <span class="rating-tag" data-cat="act">Flexible</span>
+          <span class="rating-tag" data-cat="act">Resiliente</span>
+          <span class="rating-tag" data-cat="act">Honesto</span>
+        </div>
+      </div>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="category-title">Como persona</span>
+          <span class="category-count" id="count-per">0/5</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="per">Leal</span>
+          <span class="rating-tag" data-cat="per">Generoso</span>
+          <span class="rating-tag" data-cat="per">Divertido</span>
+          <span class="rating-tag" data-cat="per">Buena persona</span>
+          <span class="rating-tag" data-cat="per">De confianza</span>
+        </div>
+      </div>
+
+      <div class="rating-category">
+        <div class="rating-category-header">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span class="category-title">Resultados</span>
+          <span class="category-count" id="count-res">0/4</span>
+        </div>
+        <div class="rating-tags">
+          <span class="rating-tag" data-cat="res">Cumplió plazos</span>
+          <span class="rating-tag" data-cat="res">Superó expectativas</span>
+          <span class="rating-tag" data-cat="res">Calidad excelente</span>
+          <span class="rating-tag" data-cat="res">Volvería a trabajar</span>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn btn-primary" onclick="goTo(8)">Enviar calificación</button>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 8: CALIFICACIÓN RECIBIDA
+       ============================================ -->
+  <main class="app-main screen" id="screen-8">
+    <div class="text-center mt-16">
+      <h1 class="title-lg">¡Calificación recibida!</h1>
+      <p class="text-body mt-8">María te calificó</p>
+    </div>
+
+    <div class="card text-center">
+      <div class="received-rating">
+        <div class="received-stars">
+          <svg class="icon star" viewBox="0 0 24 24" style="fill:var(--mp-yellow);stroke:var(--mp-yellow);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="icon star" viewBox="0 0 24 24" style="fill:var(--mp-yellow);stroke:var(--mp-yellow);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="icon star" viewBox="0 0 24 24" style="fill:var(--mp-yellow);stroke:var(--mp-yellow);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="icon star" viewBox="0 0 24 24" style="fill:var(--mp-yellow);stroke:var(--mp-yellow);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="icon star" viewBox="0 0 24 24" style="fill:var(--mp-yellow);stroke:var(--mp-yellow);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="received-score">5.0</div>
+        <p class="text-body mt-8">"Excelente colaborador, muy recomendable. Cumplió con todos los plazos y superó las expectativas."</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="text-tiny mb-8">Detalles destacados</p>
+      <div class="flex justify-between items-center mb-8">
+        <span class="text-small">Responsable</span>
+        <span class="badge badge-green">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+      </div>
+      <div class="flex justify-between items-center mb-8">
+        <span class="text-small">Puntual</span>
+        <span class="badge badge-green">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+      </div>
+      <div class="flex justify-between items-center mb-8">
+        <span class="text-small">Comunicativo</span>
+        <span class="badge badge-green">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-small">Volvería a trabajar</span>
+        <span class="badge badge-green">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="card" style="background:var(--mp-green-light);border-color:transparent;">
+      <div class="flex items-center gap-12">
+        <div style="color:var(--mp-green);">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div>
+          <p class="title-sm text-green">¡Subiste de nivel!</p>
+          <p class="text-small">Ahora sos <strong>Colaborador Confiable</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="goTo(4)">Ver mi perfil</button>
+    <button class="btn btn-ghost" onclick="goTo(9)">Buscar personas</button>
+  </main>
+
+  <!-- ============================================
+       PANTALLA 9: BÚSQUEDA DE PERSONAS
+       ============================================ -->
+  <main class="app-main screen active" id="screen-9">
+    <div class="text-center" style="margin-bottom:4px;">
+      <h1 class="title-lg">Buscar personas</h1>
+      <p class="text-body mt-8">Encontrá a alguien y mirá sus referencias</p>
+    </div>
+
+    <div class="search-box">
+      <svg class="icon icon-sm search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="input-field" placeholder="Nombre, email o teléfono..." id="searchInput" oninput="handleSearch()">
+    </div>
+
+    <div class="search-filters">
+      <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">Todos</button>
+      <button class="filter-chip" data-filter="verified" onclick="setFilter('verified')">
+        <svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;stroke:currentColor;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Verificados
+      </button>
+      <button class="filter-chip" data-filter="top" onclick="setFilter('top')">Mejor puntuados</button>
+      <button class="filter-chip" data-filter="nearby" onclick="setFilter('nearby')">Cerca tuyo</button>
+    </div>
+
+    <p class="results-count" id="resultsCount">Mostrando 10 personas</p>
+
+    <div class="people-list" id="peopleList" style="display:flex;flex-direction:column;gap:12px;"></div>
+
+    <div class="empty-state" id="emptyState" style="display:none;text-align:center;padding:40px 20px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--mp-gray-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--mp-text-sec);">
+        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <p class="title-sm">No encontramos a nadie</p>
+      <p class="text-small mt-8">Probá con otro nombre, email o teléfono</p>
+    </div>
+  </main>
+
+  <!-- ============================================
+       NAVEGACIÓN INFERIOR
+       ============================================ -->
+  <nav class="app-nav">
+    <button class="nav-item active" onclick="goTo(9)" data-screen="9">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <button class="nav-item" onclick="goTo(4)" data-screen="4">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Perfil</span>
+    </button>
+    <button class="nav-item" onclick="goTo(7)" data-screen="7">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Calificar</span>
+    </button>
+    <button class="nav-item" onclick="goTo(5)" data-screen="5">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><line x1="12" y1="6" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Planes</span>
+    </button>
+  </nav>
+
+</div>
+
+<script>
+  // ============================================
+  // ESTADO DE SESIÓN
+  // ============================================
+  let userIsLoggedIn = false;
+
+  // ============================================
+  // COMENTARIOS PREDEFINIDOS (15 PÁRRAFOS VARIADOS)
+  // ============================================
+  const predefinedComments = [
+    { icon: 'award', text: 'Excelente profesional. Cumplió con todos los plazos y superó las expectativas. Lo recomiendo sin dudarlo.' },
+    { icon: 'star', text: 'Un colaborador de diez. Su experiencia y conocimiento del tema fueron clave para el éxito del proyecto.' },
+    { icon: 'message', text: 'La comunicación fue fluida y clara en todo momento. Supo escuchar y adaptarse a los cambios sin problemas.' },
+    { icon: 'zap', text: 'Muy proactivo y resolutivo. Encontró soluciones creativas a los problemas que surgieron durante el proyecto.' },
+    { icon: 'users', text: 'Excelente compañero de equipo. Colaboró con todos y aportó ideas valiosas en cada reunión.' },
+    { icon: 'target', text: 'Entendió perfectamente los objetivos y los cumplió con creces. El resultado final fue sobresaliente.' },
+    { icon: 'thumbs-up', text: 'Recomendado al 100%. Profesional, honesto y comprometido con su trabajo. Una experiencia muy positiva.' },
+    { icon: 'heart', text: 'Como amigo es de los que están siempre. Leal, generoso y con un corazón enorme. Un privilegio tenerlo cerca.' },
+    { icon: 'message', text: 'Como amigo es divertido y buena onda, pero en los momentos difíciles no siempre estuvo presente cuando lo necesité.' },
+    { icon: 'heart', text: 'Como pareja es atento, cariñoso y muy compañero. Sabe escuchar y está presente en los momentos importantes.' },
+    { icon: 'alert', text: 'Como pareja es cariñoso, pero tiene dificultades para comunicarse y resolver conflictos. Le falta madurez emocional.' },
+    { icon: 'check', text: 'Cumplió con lo acordado en tiempo y forma. La calidad del trabajo fue buena, aunque hubo pequeños detalles a mejorar.' },
+    { icon: 'clock', text: 'Buena persona y con buenas intenciones, aunque a veces le cuesta cumplir con los tiempos. Mejorable en puntualidad.' },
+    { icon: 'alert', text: 'Tiene buen corazón pero le falta compromiso. Varias veces canceló a último momento y no cumplió con lo prometido.' },
+    { icon: 'alert', text: 'No cumplió con los plazos acordados y la comunicación fue deficiente. No volvería a trabajar con él.' }
+  ];
+
+  const dropdownIcons = {
+    award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    message: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    heart: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+    check: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    'thumbs-up': '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
+    alert: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+  };
+
+  // ============================================
+  // PERSONAS (datos de ejemplo)
+  // ============================================
+  const people = [
+    { id: 1, name: 'María González', initials: 'MG', trait: 'Colaboradora Confiable', rating: 4.9, references: 127, verified: true, nearby: true },
+    { id: 2, name: 'Juan Pérez', initials: 'JP', trait: 'Buen compañero de equipo', rating: 4.7, references: 89, verified: true, nearby: false },
+    { id: 3, name: 'Lucía Fernández', initials: 'LF', trait: 'Como amiga, siempre presente', rating: 5.0, references: 42, verified: true, nearby: true },
+    { id: 4, name: 'Carlos Ramírez', initials: 'CR', trait: 'Profesional responsable', rating: 4.5, references: 63, verified: false, nearby: true },
+    { id: 5, name: 'Sofía Martínez', initials: 'SM', trait: 'Como pareja, muy compañera', rating: 4.8, references: 28, verified: true, nearby: false },
+    { id: 6, name: 'Diego López', initials: 'DL', trait: 'Buen amigo y confidente', rating: 4.6, references: 51, verified: false, nearby: true },
+    { id: 7, name: 'Valentina Ruiz', initials: 'VR', trait: 'Excelente líder', rating: 4.9, references: 95, verified: true, nearby: false },
+    { id: 8, name: 'Andrés Torres', initials: 'AT', trait: 'Cumplidor y honesto', rating: 4.4, references: 34, verified: false, nearby: true },
+    { id: 9, name: 'Florencia Silva', initials: 'FS', trait: 'Creativa y dedicada', rating: 4.7, references: 72, verified: true, nearby: true },
+    { id: 10, name: 'Martín Acosta', initials: 'MA', trait: 'Buen comunicador', rating: 4.3, references: 19, verified: false, nearby: false }
+  ];
+
+  let currentFilter = 'all';
+  let currentSearch = '';
+
+  // ============================================
+  // BANNER FLOTANTE STICKY GLOBAL
+  // ============================================
+  function injectFloatingCta() {
+    document.querySelectorAll('.screen').forEach(screen => {
+      if (screen.querySelector('.floating-cta')) return;
+
+      const cta = document.createElement('div');
+      cta.className = 'floating-cta';
+      if (userIsLoggedIn) cta.classList.add('hidden');
+      cta.innerHTML = `
+        <div class="cta-icon">
+          <svg viewBox="0 0 24 24">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="cta-text">
+          <div class="cta-title">¿Querés calificar?</div>
+          <div class="cta-subtitle">Creá tu cuenta gratis</div>
+        </div>
+        <button class="cta-btn" onclick="goTo(1)">Ingresar</button>
+      `;
+      screen.insertBefore(cta, screen.firstChild);
+    });
+  }
+
+  function updateFloatingCta() {
+    document.querySelectorAll('.floating-cta').forEach(cta => {
+      cta.classList.toggle('hidden', userIsLoggedIn);
+    });
+  }
+
+  function login() {
+    userIsLoggedIn = true;
+    updateFloatingCta();
+    goTo(4);
+  }
+
+  // ============================================
+  // RENDERIZAR LISTA DE PERSONAS
+  // ============================================
+  function renderPeople() {
+    const list = document.getElementById('peopleList');
+    const empty = document.getElementById('emptyState');
+    const count = document.getElementById('resultsCount');
+    if (!list) return;
+
+    let filtered = people.filter(p => {
+      if (currentSearch) {
+        const q = currentSearch.toLowerCase();
+        if (!p.name.toLowerCase().includes(q) && !p.trait.toLowerCase().includes(q)) return false;
+      }
+      if (currentFilter === 'verified' && !p.verified) return false;
+      if (currentFilter === 'nearby' && !p.nearby) return false;
+      if (currentFilter === 'top' && p.rating < 4.7) return false;
+      return true;
+    });
+
+    if (currentFilter === 'top') {
+      filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+    }
+
+    if (count) {
+      const n = filtered.length;
+      count.textContent = n === 0 ? 'Sin resultados' : n === 1 ? 'Mostrando 1 persona' : `Mostrando ${n} personas`;
+    }
+
+    if (filtered.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = filtered.map(p => `
+      <div class="person-card" onclick="viewPerson(${p.id})">
+        <div class="person-avatar">
+          ${p.initials}
+          ${p.verified ? `
+            <div class="verified-dot">
+              <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:#fff;stroke:#fff;stroke-width:3;">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+          ` : ''}
+        </div>
+        <div class="person-info">
+          <div class="person-name">${p.name}</div>
+          <div class="person-trait">${p.trait}</div>
+          <div class="person-meta">
+            <span class="person-rating">
+              <svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;fill:var(--mp-yellow);stroke:var(--mp-yellow);">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              ${p.rating}
+            </span>
+            <span class="person-refs">${p.references} referencias</span>
+          </div>
+        </div>
+        <svg class="icon icon-sm person-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    `).join('');
+  }
+
+  function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value.trim();
+    renderPeople();
+  }
+
+  function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.filter === filter);
+    });
+    renderPeople();
+  }
+
+  function viewPerson(id) {
+    goTo(6);
+  }
+
+  // ============================================
+  // DROPDOWN DE COMENTARIOS
+  // ============================================
+  function buildCommentDropdown() {
+    const menu = document.getElementById('commentDropdownMenu');
+    if (!menu) return;
+    menu.innerHTML = '';
+
+    predefinedComments.forEach((comment, index) => {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.dataset.index = index;
+
+      let iconColor = 'var(--mp-blue)';
+      if (comment.icon === 'alert') iconColor = '#e67e22';
+      if (comment.icon === 'heart') iconColor = '#e91e63';
+
+      item.innerHTML = `
+        <svg class="icon icon-sm item-icon" viewBox="0 0 24 24" style="color:${iconColor};">${dropdownIcons[comment.icon] || ''}</svg>
+        <span>${comment.text}</span>
+      `;
+      item.addEventListener('click', () => selectComment(index));
+      menu.appendChild(item);
+    });
+  }
+
+  function selectComment(index) {
+    const comment = predefinedComments[index];
+    const triggerText = document.getElementById('commentTriggerText');
+    const menu = document.getElementById('commentDropdownMenu');
+    const trigger = document.querySelector('#commentDropdown .dropdown-trigger');
+
+    if (triggerText) {
+      triggerText.textContent = comment.text;
+      triggerText.classList.remove('placeholder');
+      triggerText.classList.add('selected-text');
+    }
+    menu.querySelectorAll('.dropdown-item').forEach((item, i) => {
+      item.classList.toggle('selected', i === index);
+    });
+    menu.classList.remove('open');
+    trigger.classList.remove('open');
+  }
+
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    const menu = dropdown.querySelector('.dropdown-menu');
+    const trigger = dropdown.querySelector('.dropdown-trigger');
+
+    document.querySelectorAll('.dropdown-menu.open').forEach(m => {
+      if (m !== menu) {
+        m.classList.remove('open');
+        m.parentElement.querySelector('.dropdown-trigger').classList.remove('open');
+      }
+    });
+
+    menu.classList.toggle('open');
+    trigger.classList.toggle('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+      document.querySelectorAll('.dropdown-menu.open').forEach(m => {
+        m.classList.remove('open');
+        m.parentElement.querySelector('.dropdown-trigger').classList.remove('open');
+      });
+    }
+  });
+
+  // ============================================
+  // SISTEMA DE NAVEGACIÓN
+  // ============================================
+  const screens = {
+    1: { title: 'Ingreso', showBack: false },
+    2: { title: 'Verificar celular', showBack: true },
+    3: { title: 'Permiso de agenda', showBack: true },
+    4: { title: 'Mi Perfil', showBack: false },
+    5: { title: 'Planes', showBack: true },
+    6: { title: 'Enlace compartido', showBack: true },
+    7: { title: 'Calificar', showBack: true },
+    8: { title: 'Calificación recibida', showBack: true },
+    9: { title: 'Buscar personas', showBack: false }
+  };
+
+  let currentScreen = 9;
+  let history = [9];
+
+  function goTo(screenNum) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const screen = document.getElementById('screen-' + screenNum);
+    if (screen) {
+      screen.classList.add('active');
+      currentScreen = screenNum;
+      document.getElementById('headerTitle').textContent = screens[screenNum].title;
+      document.getElementById('backBtn').style.visibility = screens[screenNum].showBack ? 'visible' : 'hidden';
+      document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.toggle('active', n.dataset.screen == screenNum);
+      });
+      screen.scrollTop = 0;
+      if (history[history.length - 1] !== screenNum) history.push(screenNum);
+    }
+  }
+
+  function goBack() {
+    if (history.length > 1) {
+      history.pop();
+      const prev = history[history.length - 1];
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + prev).classList.add('active');
+      currentScreen = prev;
+      document.getElementById('headerTitle').textContent = screens[prev].title;
+      document.getElementById('backBtn').style.visibility = screens[prev].showBack ? 'visible' : 'hidden';
+      document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.toggle('active', n.dataset.screen == prev);
+      });
+      history.pop();
+    }
+  }
+
+  // ============================================
+  // ESTRELLAS DE CALIFICACIÓN
+  // ============================================
+  const stars = document.querySelectorAll('#ratingStars .star');
+  const ratingLabel = document.getElementById('ratingLabel');
+  const labels = ['', 'Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
+  let selectedRating = 0;
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const value = parseInt(star.dataset.value);
+      selectedRating = value;
+      stars.forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.value) <= value);
+      });
+      ratingLabel.textContent = labels[value];
+      ratingLabel.style.color = value >= 4 ? 'var(--mp-green)' : 'var(--mp-text-sec)';
+      ratingLabel.style.fontWeight = '600';
+    });
+    star.addEventListener('mouseenter', () => {
+      const value = parseInt(star.dataset.value);
+      stars.forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.value) <= value);
+      });
+    });
+  });
+
+  document.getElementById('ratingStars')?.addEventListener('mouseleave', () => {
+    stars.forEach(s => {
+      s.classList.toggle('active', parseInt(s.dataset.value) <= selectedRating);
+    });
+  });
+
+  // ============================================
+  // TAGS DE CALIFICACIÓN
+  // ============================================
+  const categoryLimits = { prof: 5, com: 4, hab: 5, act: 5, per: 5, res: 4 };
+  const categoryCounts = { prof: 0, com: 0, hab: 0, act: 0, per: 0, res: 0 };
+
+  document.querySelectorAll('.rating-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const cat = tag.dataset.cat;
+      if (tag.classList.contains('selected')) {
+        tag.classList.remove('selected');
+        categoryCounts[cat]--;
+      } else {
+        tag.classList.add('selected');
+        categoryCounts[cat]++;
+      }
+      const counter = document.getElementById('count-' + cat);
+      if (counter) {
+        counter.textContent = `${categoryCounts[cat]}/${categoryLimits[cat]}`;
+        counter.style.color = categoryCounts[cat] > 0 ? 'var(--mp-blue)' : 'var(--mp-text-sec)';
+        counter.style.fontWeight = categoryCounts[cat] > 0 ? '700' : '500';
+      }
+    });
+  });
+
+  // ============================================
+  // INPUTS DE CÓDIGO
+  // ============================================
+  document.querySelectorAll('.code-input').forEach((input, index, inputs) => {
+    input.addEventListener('input', (e) => {
+      if (e.target.value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !e.target.value && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+  });
+
+  // ============================================
+  // INICIALIZACIÓN
+  // ============================================
+  buildCommentDropdown();
+  renderPeople();
+  injectFloatingCta();
+  goTo(9);
+</script>
+
+</body>
+</html>
